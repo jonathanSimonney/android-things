@@ -148,6 +148,25 @@ class MainActivity : Activity() {
         ledstrip.write(rainbow)
     }
 
+    suspend fun showRainbow(color: Int){
+        text.display(color)
+        text.setEnabled(true)
+    }
+
+    fun rainbowDisplay1(){
+        //val arrayString = "azer,bouh,caca";
+        //val separated = arrayString.split(",");
+        ledstrip.brightness = 31
+        val rainbow = IntArray(RainbowHat.LEDSTRIP_LENGTH)
+
+        GlobalScope.launch {
+            rainbow.forEach{
+                showRainbow(it)
+            }
+        }
+    }
+
+
     suspend fun showText(textToDisplay: String){
         text.display(textToDisplay)
         text.setEnabled(true)
