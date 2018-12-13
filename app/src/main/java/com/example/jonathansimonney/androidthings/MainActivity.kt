@@ -37,15 +37,15 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main)
 
-        useServoMoteur3()
+        useServoMoteur4()
         button.setOnButtonEventListener { button, pressed -> finish() }
     }
 
     override fun onDestroy() {
         Log.e("finishApp", "destroying app")
         button.close()
-        servo.close()
         servo.setEnabled(false)
+        servo.close()
         super.onDestroy()
     }
 
@@ -57,6 +57,12 @@ class MainActivity : Activity() {
 
     fun useServoMoteur3(){
         servo.angle = 90.0
+        servo.setPulseDurationRange(servo.minimumPulseDuration, servo.maximumPulseDuration)
+        servo.setEnabled(true)
+    }
+
+    fun useServoMoteur4(){
+        servo.angle = servo.maximumAngle
         servo.setPulseDurationRange(servo.minimumPulseDuration, servo.maximumPulseDuration)
         servo.setEnabled(true)
     }
