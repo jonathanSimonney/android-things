@@ -7,6 +7,7 @@ import com.google.android.things.contrib.driver.button.Button.OnButtonEventListe
 import android.R.attr.button
 import android.graphics.Color
 import android.util.Log
+import android.view.Display
 import com.google.android.things.contrib.driver.button.Button
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -46,7 +47,7 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main)
 
-        ledRubanDisplay1()
+        displayText3()
         button.setOnButtonEventListener { button, pressed -> finish() }
     }
 
@@ -138,12 +139,29 @@ class MainActivity : Activity() {
         ledstrip.write(rainbow)
     }
 
-    fun ledRubanDisplay1(){
+    fun ledRubanDisplay1() {
         ledstrip.brightness = 31
         val rainbow = IntArray(RainbowHat.LEDSTRIP_LENGTH)
         for (i in 0 until rainbow.size) {
             rainbow[i] = Color.HSVToColor(255, floatArrayOf(i * 360f / rainbow.size, 1.0f, 1.0f))
         }
         ledstrip.write(rainbow)
+    }
+
+    suspend fun showText(textToDisplay: String){
+        text.display(textToDisplay)
+        text.setEnabled(true)
+    }
+
+    fun displayText3(){
+        val arrayString = "azer,bouh,caca";
+        val separated = arrayString.split(",");
+
+        GlobalScope.launch {
+            separated.forEach{
+                showText(it)
+                delay(2000)
+            }
+        }
     }
 }
