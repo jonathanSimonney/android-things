@@ -47,7 +47,7 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main)
 
-        displayText3()
+        ledRubanDisplay2()
         button.setOnButtonEventListener { button, pressed -> finish() }
     }
 
@@ -148,20 +148,27 @@ class MainActivity : Activity() {
         ledstrip.write(rainbow)
     }
 
-    suspend fun showRainbow(color: Int){
-        text.display(color)
-        text.setEnabled(true)
+    suspend fun showRainbow(rainbow: IntArray){
+        ledstrip.write(rainbow)
     }
 
-    fun rainbowDisplay1(){
+    fun ledRubanDisplay2(){
         //val arrayString = "azer,bouh,caca";
         //val separated = arrayString.split(",");
         ledstrip.brightness = 31
         val rainbow = IntArray(RainbowHat.LEDSTRIP_LENGTH)
+        var decalage = 0
 
         GlobalScope.launch {
-            rainbow.forEach{
-                showRainbow(it)
+            while (true){
+                decalage++
+                for (i in 0 until rainbow.size) {
+                    val index = (i + decalage) % rainbow.size
+                    rainbow[index] = Color.HSVToColor(255, floatArrayOf(i * 360f / rainbow.size, 1.0f, 1.0f))
+                }
+                showRainbow(rainbow)
+                delay(1000)
+                decalage %= rainbow.size
             }
         }
     }
@@ -173,8 +180,8 @@ class MainActivity : Activity() {
     }
 
     fun displayText3(){
-        val arrayString = "azer,bouh,caca";
-        val separated = arrayString.split(",");
+        val arrayString = "azer,bouh,coco"
+        val separated = arrayString.split(",")
 
         GlobalScope.launch {
             separated.forEach{
