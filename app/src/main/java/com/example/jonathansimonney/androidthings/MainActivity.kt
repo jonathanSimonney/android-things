@@ -6,6 +6,7 @@ import com.google.android.things.contrib.driver.rainbowhat.RainbowHat;
 import com.google.android.things.contrib.driver.button.Button.OnButtonEventListener
 import android.R.attr.button
 import android.util.Log
+import android.view.Display
 import com.google.android.things.contrib.driver.button.Button
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -45,6 +46,7 @@ class MainActivity : Activity() {
 //        setContentView(R.layout.activity_main)
 
         playSound2()
+        displayText()
         button.setOnButtonEventListener { button, pressed -> finish() }
     }
 
@@ -122,6 +124,22 @@ class MainActivity : Activity() {
                 delay(300)
             }
             buzzer.stop()
+        }
+    }
+
+    suspend fun showText(textToDisplay: String){
+        text.display(String)
+    }
+
+    fun displayText(){
+        val arrayString:String = "azer,bouh,caca";
+        val separated = arrayString.split(",");
+
+        GlobalScope.launch {
+            separated.forEach{
+                showText(it)
+                delay(2000)
+            }
         }
     }
 }
