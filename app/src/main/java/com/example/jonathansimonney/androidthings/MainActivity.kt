@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.google.android.things.contrib.driver.rainbowhat.RainbowHat;
 import com.google.android.things.contrib.driver.button.Button.OnButtonEventListener
 import android.R.attr.button
+import android.graphics.Color
 import android.util.Log
 import com.google.android.things.contrib.driver.button.Button
 import kotlinx.coroutines.GlobalScope
@@ -39,12 +40,13 @@ class MainActivity : Activity() {
     var servo = RainbowHat.openServo()
     var text = RainbowHat.openDisplay()
     var buzzer = RainbowHat.openPiezo()
+    var ledstrip = RainbowHat.openLedStrip()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main)
 
-        playSound2()
+        ledRubanDisplay1()
         button.setOnButtonEventListener { button, pressed -> finish() }
     }
 
@@ -58,6 +60,8 @@ class MainActivity : Activity() {
         text.setEnabled(false)
         text.close()
         buzzer.close()
+        hideLedDisplay()
+        ledstrip.close()
         super.onDestroy()
     }
 
@@ -123,5 +127,23 @@ class MainActivity : Activity() {
             }
             buzzer.stop()
         }
+    }
+
+    fun hideLedDisplay(){
+        ledstrip.brightness = 0
+        val rainbow = IntArray(RainbowHat.LEDSTRIP_LENGTH)
+        for (i in 0 until rainbow.size) {
+            rainbow[i] = Color.HSVToColor(255, floatArrayOf(i * 360f / rainbow.size, 1.0f, 1.0f))
+        }
+        ledstrip.write(rainbow)
+    }
+
+    fun ledRubanDisplay1(){
+        ledstrip.brightness = 31
+        val rainbow = IntArray(RainbowHat.LEDSTRIP_LENGTH)
+        for (i in 0 until rainbow.size) {
+            rainbow[i] = Color.HSVToColor(255, floatArrayOf(i * 360f / rainbow.size, 1.0f, 1.0f))
+        }
+        ledstrip.write(rainbow)
     }
 }
