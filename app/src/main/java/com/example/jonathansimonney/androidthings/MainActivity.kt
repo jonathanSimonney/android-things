@@ -30,6 +30,8 @@ import com.google.android.things.contrib.driver.button.Button
  *
  */
 class MainActivity : Activity() {
+    var buttonA = RainbowHat.openButtonA()
+    var buttonB = RainbowHat.openButtonB()
     var button = RainbowHat.openButtonC()
     var servo = RainbowHat.openServo()
 
@@ -37,13 +39,15 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main)
 
-        useServoMoteur5()
+        useServoMoteur6()
         button.setOnButtonEventListener { button, pressed -> finish() }
     }
 
     override fun onDestroy() {
         Log.e("finishApp", "destroying app")
         button.close()
+        buttonA.close()
+        buttonB.close()
         servo.setEnabled(false)
         servo.close()
         super.onDestroy()
@@ -75,6 +79,20 @@ class MainActivity : Activity() {
         servo.setEnabled(true)
         Thread.sleep(200)
         servo.setEnabled(false)
+    }
+
+    fun reverseServoMotor5(){
+        servo.angle = servo.minimumAngle
+        servo.setPulseDurationRange(servo.minimumPulseDuration, servo.maximumPulseDuration)
+        servo.setEnabled(true)
+        Thread.sleep(200)
+        servo.setEnabled(false)
+    }
+
+    fun useServoMoteur6(){
+//        servo.angle = servo.minimumAngle
+        buttonA.setOnButtonEventListener { button, pressed -> useServoMoteur5() }
+        buttonB.setOnButtonEventListener { button, pressed -> reverseServoMotor5() }
     }
 
 }
