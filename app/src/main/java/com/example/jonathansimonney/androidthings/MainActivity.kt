@@ -31,18 +31,28 @@ import com.google.android.things.contrib.driver.button.Button
  */
 class MainActivity : Activity() {
     var button = RainbowHat.openButtonC()
+    var servo = RainbowHat.openServo()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+//        setContentView(R.layout.activity_main)
 
+        useServoMoteur2()
         button.setOnButtonEventListener { button, pressed -> finish() }
     }
 
     override fun onDestroy() {
         Log.e("finishApp", "destroying app")
         button.close()
+        servo.close()
+        servo.setEnabled(false)
         super.onDestroy()
+    }
+
+    fun useServoMoteur2(){
+        servo.angle = 90.0
+        servo.setPulseDurationRange(1.0, 2.0)
+        servo.setEnabled(true)
     }
 
 }
