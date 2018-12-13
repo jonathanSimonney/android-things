@@ -34,12 +34,13 @@ class MainActivity : Activity() {
     var buttonB = RainbowHat.openButtonB()
     var button = RainbowHat.openButtonC()
     var servo = RainbowHat.openServo()
+    var text = RainbowHat.openDisplay()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main)
 
-        useServoMoteur6()
+        afficherDuTexte1()
         button.setOnButtonEventListener { button, pressed -> finish() }
     }
 
@@ -50,6 +51,8 @@ class MainActivity : Activity() {
         buttonB.close()
         servo.setEnabled(false)
         servo.close()
+        text.setEnabled(false)
+        text.close()
         super.onDestroy()
     }
 
@@ -93,6 +96,11 @@ class MainActivity : Activity() {
 //        servo.angle = servo.minimumAngle
         buttonA.setOnButtonEventListener { button, pressed -> useServoMoteur5() }
         buttonB.setOnButtonEventListener { button, pressed -> reverseServoMotor5() }
+    }
+
+    fun afficherDuTexte1(){
+        text.display("BOOM")
+        text.setEnabled(true)
     }
 
 }
