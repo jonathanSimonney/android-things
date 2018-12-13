@@ -36,10 +36,11 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        button.setOnButtonEventListener { button, pressed -> Log.e("buttonPressed", button.toString()) }
+        button.setOnButtonEventListener { button, pressed -> finish() }
     }
 
     override fun onDestroy() {
+        Log.e("finishApp", "destroying app")
         button.close()
         super.onDestroy()
     }
