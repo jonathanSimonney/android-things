@@ -37,7 +37,7 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main)
 
-        useServoMoteur4()
+        useServoMoteur5()
         button.setOnButtonEventListener { button, pressed -> finish() }
     }
 
@@ -66,6 +66,15 @@ class MainActivity : Activity() {
         servo.angle = servo.maximumAngle
         servo.setPulseDurationRange(servo.minimumPulseDuration, servo.maximumPulseDuration)
         servo.setEnabled(true)
+    }
+
+    fun useServoMoteur5(){
+//        servo.angle = servo.minimumAngle
+        servo.angle = servo.maximumAngle
+        servo.setPulseDurationRange(servo.minimumPulseDuration, servo.maximumPulseDuration)
+        servo.setEnabled(true)
+        Thread.sleep(200)
+        servo.setEnabled(false)
     }
 
 }
