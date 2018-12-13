@@ -62,6 +62,7 @@ class MainActivity : Activity() {
     }
 
     fun useServoMoteur4(){
+//        servo.angle = servo.minimumAngle
         servo.angle = servo.maximumAngle
         servo.setPulseDurationRange(servo.minimumPulseDuration, servo.maximumPulseDuration)
         servo.setEnabled(true)
