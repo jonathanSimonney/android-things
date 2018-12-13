@@ -7,6 +7,9 @@ import com.google.android.things.contrib.driver.button.Button.OnButtonEventListe
 import android.R.attr.button
 import android.util.Log
 import com.google.android.things.contrib.driver.button.Button
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 /**
@@ -35,12 +38,13 @@ class MainActivity : Activity() {
     var button = RainbowHat.openButtonC()
     var servo = RainbowHat.openServo()
     var text = RainbowHat.openDisplay()
+    var buzzer = RainbowHat.openPiezo()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main)
 
-        afficherDuTexte1()
+        playSound2()
         button.setOnButtonEventListener { button, pressed -> finish() }
     }
 
@@ -53,6 +57,7 @@ class MainActivity : Activity() {
         servo.close()
         text.setEnabled(false)
         text.close()
+        buzzer.close()
         super.onDestroy()
     }
 
@@ -103,4 +108,20 @@ class MainActivity : Activity() {
         text.setEnabled(true)
     }
 
+    suspend fun playSingleSound(soundFrequency: Double){
+        buzzer.play(soundFrequency)
+    }
+
+    fun playSound2(){
+        val arraySound = intArrayOf(261, 294, 329, 349, 392, 440, 493, 523)
+
+        GlobalScope.launch {
+            for (frequency in arraySound){
+                playSingleSound(frequency.toDouble())
+
+                delay(300)
+            }
+            buzzer.stop()
+        }
+    }
 }
